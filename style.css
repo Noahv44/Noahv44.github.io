@@ -1,0 +1,42 @@
+/* General Body Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+/* Navigation Bar Styling */
+.navbar {
+    background-color: #333;
+    overflow: hidden;
+}
+
+.navbar ul {
+    margin: 0;
+    padding: 0;
+    list-style: none; /* Removes bullet points */
+}
+
+.navbar li {
+    float: left;
+}
+
+.navbar a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none; /* Removes underline from links */
+    transition: background-color 0.3s; /* Smooth hover effect */
+}
+
+.navbar a:hover {
+    background-color: #575757; /* Darker grey on hover */
+}
+
+/* Main Content Area */
+.content {
+    padding: 20px;
+    text-align: center;
+}
