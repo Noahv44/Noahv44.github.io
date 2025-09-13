@@ -1,0 +1,203 @@
+/* --- General Game Styles --- */
+.game-container {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--card-bg);
+}
+
+.game-status {
+    margin: 15px 0;
+    font-size: 1.2em;
+    min-height: 25px;
+    text-align: center;
+}
+
+.button-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--uindy-crimson);
+    color: var(--header-text);
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.button-link:hover {
+    background-color: var(--uindy-crimson-darker);
+}
+
+
+/* --- Tic Tac Toe Styles --- */
+#tic-tac-toe-board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 300px;
+    height: 300px;
+    margin: 20px auto;
+    border: 2px solid var(--text-color);
+}
+
+.cell {
+    width: 100px;
+    height: 100px;
+    border: 1px solid var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3em;
+    font-family: 'Arial', sans-serif;
+    cursor: pointer;
+    user-select: none;
+    box-sizing: border-box; /* Ensures border is inside the element */
+}
+
+.cell.x {
+    color: var(--uindy-crimson);
+}
+
+.cell.o {
+    color: var(--uindy-grey);
+}
+
+body.dark-mode .cell.o {
+    color: #b0b0b0;
+}
+
+
+/* --- 2048 Game Styles --- */
+#g2048-container {
+    text-align: center;
+}
+
+.g2048-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.score-container {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.game-instructions {
+    margin-top: 20px;
+    font-size: 0.9em;
+}
+
+#game-board-2048 {
+    width: 400px;
+    height: 400px;
+    background-color: #bbada0;
+    border-radius: 6px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+    position: relative;
+    margin: 0 auto;
+}
+
+.grid-cell {
+    width: 87.5px; /* (400 - 5*10) / 4 */
+    height: 87.5px;
+    background-color: #cdc1b4;
+    border-radius: 3px;
+}
+
+.tile {
+    position: absolute;
+    width: 87.5px;
+    height: 87.5px;
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5em;
+    font-weight: bold;
+    transition: all 0.1s ease-in-out;
+}
+
+/* Tile Colors */
+.tile-2 { background-color: #eee4da; color: #776e65; }
+.tile-4 { background-color: #ede0c8; color: #776e65; }
+.tile-8 { background-color: #f2b179; color: #f9f6f2; }
+.tile-16 { background-color: #f59563; color: #f9f6f2; }
+.tile-32 { background-color: #f67c5f; color: #f9f6f2; }
+.tile-64 { background-color: #f65e3b; color: #f9f6f2; }
+.tile-128 { background-color: #edcf72; color: #f9f6f2; }
+.tile-256 { background-color: #edcc61; color: #f9f6f2; }
+.tile-512 { background-color: #edc850; color: #f9f6f2; }
+.tile-1024 { background-color: #edc53f; color: #f9f6f2; }
+.tile-2048 { background-color: #edc22e; color: #f9f6f2; }
+
+/* --- Penalty Kick Simulator Styles --- */
+#pk-container {
+    text-align: center;
+}
+
+.pk-header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+}
+
+#pk-goal {
+    width: 480px;
+    height: 240px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    border: 5px solid var(--text-color);
+    border-top: none; /* No top border for the goal */
+    position: relative;
+    background-color: #f0f0f022; /* Slight background for the net */
+}
+
+body.dark-mode #pk-goal {
+     border-color: var(--text-color);
+}
+
+.goal-cell {
+    border: 1px dashed #cccccc55;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.goal-cell:hover {
+    background-color: #00ff0055; /* Green highlight on hover */
+}
+
+.pk-ball, .pk-goalie {
+    position: absolute;
+    border-radius: 50%;
+    box-sizing: border-box;
+    display: none; /* Hidden by default */
+}
+
+.pk-ball {
+    width: 40px;
+    height: 40px;
+    background-color: #fff;
+    border: 2px solid #000;
+    z-index: 2;
+}
+
+.pk-goalie {
+    width: 120px; /* 2 cells wide */
+    height: 120px; /* 2 cells high */
+    background-color: #ff0000aa; /* Red for the goalie */
+    opacity: 0.7;
+    z-index: 1;
+}

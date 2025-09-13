@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Dynamic Salary Model</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+</head> 
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7FRWY9ZGH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-E7FRWY9ZGH');
+</script>
+<body>
+    <div class="container">
+        <header>
+            <img src="../images/headshot.jpg" alt="Noah Vachon Headshot" id="header-headshot">
+            <h1>Noah Vachon's Practice Website for CSCI 310</h1>
+            <img src="../images/logo.png" alt="NV Analytics Logo" id="header-logo">
+        </header>
+
+        <nav class="menu">
+             <ul>
+                <li><a href="../index.html#about">About Me</a></li>
+                <li><a href="../index.html#projects">Projects</a></li>
+                <li><a href="../index.html#hobbies">Hobbies</a></li>
+            </ul>
+        </nav>
+
+        <main class="content-area">
+            <div class="project-detail">
+
+    <!-- Body content -->
+    <div class="body-content">
+        <h3>Retirement Model</h3>
+        <p>
+            This is a retirement model which models salary with both a constant growth rate for cost of living raises as well as regular salary increases for promotions. The model is broken up into the following sections:
+        </p>
+        <ul>
+            <li><a href="#Setup"><strong>Setup</strong></a>: Runs any imports and other setup</li>
+            <li><a href="#Inputs"><strong>Inputs</strong></a>: Defines the inputs for the model</li>
+            <li><a href="#Salaries"><strong>Salaries</strong></a>: Determining the salary in each year, considering cost of living raises and promotions</li>
+            <li><a href="#Wealths"><strong>Wealths</strong></a>: Determining the wealth in each year, considering a constant savings rate and investment rate</li>
+            <li><a href="#Retirement"><strong>Retirement</strong></a>: Determines years to retirement from the wealths over time, the main output from the model.</li>
+        </ul>
+
+        <!-- Setup Section with an ID -->
+        <h4 id="Setup">Setup</h4>
+        <ul>
+            All imports for later calculations will be here.
+        </ul>
+
+        <div class="python-code">
+            <h4>Python Code</h4>
+            <!-- Code block with Prism.js syntax highlighting -->
+            <pre><code class="language-python">
+from dataclasses import dataclass
+import numpy_financial as npf 
+            </code></pre>
+        </div>
+
+        <!-- Inputs Section with an ID -->
+        <h4 id="Inputs">Inputs</h4>
+        <p>
+            All of the inputs for the model are defined here. A class is constructed to manage the data, and an instance of the class containing the default inputs is created.
+        </p>
+
+        <div class="python-code">
+            <h4>Python Code</h4>
+            <!-- Code block with Prism.js syntax highlighting -->
+            <pre><code class="language-python">
+@dataclass
+class ModelInputs:
+    starting_salary: int = 60000
+    promos_every_n_years: int = 5
+    cost_of_living_raise: float = 0.02
+    promo_raise: float = 0.15
+    savings_rate: float = 0.25
+    interest_rate: float = 0.05
+    annual_cash_spend: int = 40000
+    years_in_retirement: int = 25
+                
+model_data = ModelInputs()
+model_data
+            </code></pre>
+
+            <h4>Python Code Output</h4>
+            <pre><code class="language-python">
+# Output of the calculation
+ModelInputs(starting_salary=60000, promos_every_n_years=5, cost_of_living_raise=0.02, promo_raise=0.15, 
+savings_rate=0.25, interest_rate=0.05, annual_cash_spend=40000, years_in_retirement=25)
+            </code></pre>
+            <h4>Python Code</h4>
+            <!-- Code block with Prism.js syntax highlighting -->
+            <pre><code class="language-python">
+d2 = ModelInputs(starting_salary=40000) 
+#This is why to use data = model_data. More flexibility
+d2
+            </code></pre>
+            <h4>Python Code Output</h4>
+            <pre><code class="language-python">
+# Output of the calculation
+ModelInputs(starting_salary=40000, promos_every_n_years=5, cost_of_living_raise=0.02, promo_raise=0.15, 
+savings_rate=0.25, interest_rate=0.05, annual_cash_spend=40000, years_in_retirement=25)
+            </code></pre>
+        </div>
+
+        <!-- Salaries Section with an ID -->
+        <h4 id="Salaries">Salaries</h4>
+        <p>
+            Here the salary for each year is calculated. We assume that the salary grows at a constant rate each year for cost of living raises, and then also every number of years, the salary increases by a further percentage due to a promotion or switching jobs. Based on this assumption, the salary would evolve over time with the following equation:
+        </p>
+        <p>
+            $$s_t = s_0 (1 + r_{cl})^n (1 + r_p)^p$$
+        </p>
+        <p>Where:</p>
+        <ul>
+            <li>$s_t$: Salary at year $t$</li>
+            <li>$s_0$: Starting salary (year 0)</li>
+            <li>$r_{cl}$: Annual cost of living raise</li>
+            <li>$r_p$: Promotion raise</li>
+            <li>$p$: Number of promotions</li>
+        </ul>
+        
+        <p>And in Python format:</p>
+        <div class="python-code">
+            <h4>Python Code</h4>
+            <pre><code class="language-python">
+def salary_at_year(data,year):
+"""
+Gets the salary at a specified year using promotions and cost of living raise
+"""
+#There is a promotion every n years, here we find out how many promotions would happen in those years
+num_promos = int(year / data.promos_every_n_years) #int to remove decimal
+
+#This is the above formula in python
+salary_t = data.starting_salary * (1 + data.cost_of_living_raise)**year * (1 + data.promo_raise)**num_promos
+return salary_t
+            </code></pre>
+            
+        </div>
+        <p>Salary at year function returns the salary at different specified years. Below uses a loop to specify the growth at each year. These will be useful later when this function is used in the <a href="#Wealths">Wealths</a> section of the model</p>
+
+        <div class="python-code">
+            <h4>Python Code</h4>
+            <pre><code class="language-python">
+for year in range(1,7):
+salary = salary_at_year(model_data, year)
+print(f'The salary at year {year} is ${salary:,.0f}.')
+            </code></pre>
+            <h4>Python Code Output</h4>
+            <pre><code class="language-python">
+# Output of the calculation
+The salary at year 1 is $61,200.
+The salary at year 2 is $62,424.
+The salary at year 3 is $63,672.
+The salary at year 4 is $64,946.
+The salary at year 5 is $76,182.
+The salary at year 6 is $77,705.
+            </code></pre>
+        </div>
+
+        <p>Using the default inputs, the salary increases at 2% per year until year 5, where a promotion occurs and there's a larger jump in salary.</p>
+
+        <!-- Wealths Section with an ID -->
+        <h4 id="Wealths">Wealths</h4>
+        <p>
+            The wealths portion of this model deals with adding the savings rate to the salary calculated in the <a href="#Salaries">Salaries</a> section. This is used to calculate cash saved and applying the investment rate (interest) to the accumulated wealth.
+        </p>
+        <p>
+            To calculate cash saved, it is simply:
+        </p>
+        <p>
+            $$c_t = s_t * r_s$$
+        </p>
+        <p>Where:</p>
+        <ul>
+            <li>$c_t$: Cash saved during year $t$</li>
+            <li>$r_s$: Savings rate</li>
+        </ul>
+
+        <div class="python-code">
+            <h4>Python Code</h4>
+            <pre><code class="language-python">
+def cash_saved_during_year(data,year):
+"""
+Calculating cash saved for a given year using the salary at that year * the savings rate
+"""
+salary = salary_at_year(data,year)
+cash_saved = salary * data.savings_rate
+return cash_saved
+            </code></pre>
+
+        <p>To get the wealth at each year, it is just applying the investment return to last year's wealth, then adding this year's cash saved:</p>
+        <p>
+            $$w_t = w_{t-1} (1 + r_i) + c_t$$
+        </p>
+        <p>Where:</p>
+        <ul>
+            <li>$w_t$: Wealth at year $t$</li>
+            <li>$r_i$: Investment rate</li>
+        </ul>
+
+        <div class="python-code">
+            <h4>Python Code</h4>
+            <pre><code class="language-python">
+def wealth_at_year(data,year,prior_wealth):
+"""
+This calculates the accumulated wealth for a given year using prior years wealth, 
+interest, and cash saved during that year. 
+"""
+cash_saved = cash_saved_during_year(data,year)
+wealth = prior_wealth * (1 + data.interest_rate) + cash_saved
+return wealth
+            </code></pre>
+
+        <p>Again, just like in the <a href="#Salaries">Salaries</a> section, we can now get the output for each year, but we don't know ultimately how many years we will have to run it. That will be determined in the <a href="#Retirement">Retirement</a> section. So for now, just the first few years of wealth accumulation is shown:</p>
+
+        <div class="python-code">
+            <h4>Python Code</h4>
+            <pre><code class="language-python">
+prior_wealth = 0 # Starting with zero saved cash
+for year in range(1,7):
+    wealth = wealth_at_year(model_data,year,prior_wealth)
+    print(f'The wealth at year {year} is ${wealth:,.0f}')
+    
+    #Setting next years prior wealth to this year's wealth
+    prior_wealth = wealth
+            </code></pre>
+
+            <h4>Python Code Output</h4>
+            <pre><code class="language-python">
+# Output of the calculation
+The wealth at year 1 is $15,300
+The wealth at year 2 is $31,671
+The wealth at year 3 is $49,173
+The wealth at year 4 is $67,868
+The wealth at year 5 is $90,307
+The wealth at year 6 is $114,248
+            </code></pre>
+        <p>Assuming default inputs, the wealth is going up about 25% of the salary each year, plus the interest. At year 6, the amount grows more significantly due to the promotion.</p>
+
+        <!-- Retirement Section with an ID -->
+        <h4 id="Retirement">Retirement</h4>
+        <p>
+            This section of the model includes everything and returns the final answer. It uses the wealths at each year and salaries from each year to track the wealth overtime until it hits the retirement cash goal. Once the wealth is bigger than the cash goal, they can retire. The retirement cash goal is calculated using annual retirement cash spend and projected years in retirement.
+        </p>
+        <div class="python-code">
+            <h4>Python Code</h4>
+            <pre><code class="language-python">
+def desired_cash(data):
+"""
+Using the numpy_financial Present Value function, desired cash is calculated with the 
+interest rate, projected years in retirement and projected annual cash in retirement
+"""
+cash_goal= npf.pv(data.interest_rate,data.years_in_retirement,-data.annual_cash_spend,0)
+return cash_goal
+
+def years_to_retirment(data):
+    
+#Zero cash is saved and the year here will be the first in the loop.
+prior_wealth = 0
+wealth = 0
+year = 0
+
+print('Wealths over time:')
+while wealth < desired_cash(model_data):
+    year = year + 1
+    wealth = wealth_at_year(data, year, prior_wealth)
+    print(f'The wealth at year {year} is ${wealth:,.0f}')
+
+    #Next years prior wealth to this year's wealth
+    prior_wealth = wealth
+    
+#Outside of the while loop. Wealth must be greater than desired cash.
+# The final year used must be the years until retirement.
+print(f'\n\nRetirement:')
+print(f'It will take {year} years to retire')
+return year
+
+ytr = years_to_retirment(model_data)
+            </code></pre>
+
+            <h4>Python Code Output</h4>
+            <pre><code class="language-python">
+# Output of the calculation
+Wealths over time:
+The wealth at year 1 is $15,300
+The wealth at year 2 is $31,671
+The wealth at year 3 is $49,173
+The wealth at year 4 is $67,868
+The wealth at year 5 is $90,307
+The wealth at year 6 is $114,248
+The wealth at year 7 is $139,775
+The wealth at year 8 is $166,975
+The wealth at year 9 is $195,939
+The wealth at year 10 is $229,918
+The wealth at year 11 is $266,080
+The wealth at year 12 is $304,542
+The wealth at year 13 is $345,431
+The wealth at year 14 is $388,878
+The wealth at year 15 is $439,025
+The wealth at year 16 is $492,294
+The wealth at year 17 is $548,853
+The wealth at year 18 is $608,878
+
+
+Retirement:
+It will take 18 years to retire
+            </code></pre>
+    </div>
+
+    <!-- Links to navigate to sections at the bottom -->
+<div class="section-links">
+    <a href="#Setup">Setup</a> | 
+    <a href="#Inputs">Inputs</a> | 
+    <a href="#Salaries">Salaries</a> | 
+    <a href="#Wealths">Wealths</a> | 
+    <a href="#Retirement">Retirement</a>
+</div>
+
+    </div> </main> </div> <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+</body>
+</html>

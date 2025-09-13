@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Games</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/games.css"> </head>
+<body>
+    <div class="container">
+        <header>
+            <img src="images/headshot.jpg" alt="Noah Vachon Headshot" id="header-headshot">
+            <h1>Noah Vachon's Practice Website for CSCI 310</h1>
+            <img src="images/logo.png" alt="NV Analytics Logo" id="header-logo">
+        </header>
+
+        <nav class="menu">
+             <ul>
+                <li><a href="index.html#about">About Me</a></li>
+                <li><a href="index.html#projects">Projects</a></li>
+                <li><a href="index.html#hobbies">Hobbies</a></li>
+            </ul>
+        </nav>
+
+        <main class="content-area">
+            <h2>JavaScript Games</h2>
+            <p>A collection of classic games built with JavaScript.</p>
+            
+            <hr class="section-divider">
+
+            <div class="game-container">
+                <h3>Tic Tac Toe</h3>
+                <div id="tic-tac-toe-board" class="game-board">
+                    <div class="cell" data-cell-index="0"></div>
+                    <div class="cell" data-cell-index="1"></div>
+                    <div class="cell" data-cell-index="2"></div>
+                    <div class="cell" data-cell-index="3"></div>
+                    <div class="cell" data-cell-index="4"></div>
+                    <div class="cell" data-cell-index="5"></div>
+                    <div class="cell" data-cell-index="6"></div>
+                    <div class="cell" data-cell-index="7"></div>
+                    <div class="cell" data-cell-index="8"></div>
+                </div>
+                <h4 id="game-status" class="game-status"></h4>
+                <button id="restart-button" class="button-link">Restart Game</button>
+            </div>
+
+            <hr class="section-divider">
+
+            <div class="game-container" id="g2048-container">
+                <h3>2048</h3>
+                <div class="g2048-header">
+                    <div class="score-container">Score: <span id="score">0</span></div>
+                    <button id="new-game-btn" class="button-link">New Game</button>
+                </div>
+                <div id="game-board-2048"></div>
+                <p class="game-instructions">Use your arrow keys to move the tiles. Tiles with the same number merge into one when they touch. Add them up to reach 2048!</p>
+                <div id="game-over-message" style="display: none;">Game Over!</div>
+            </div>
+
+            <div class="game-container" id="pk-container">
+                <h3>Penalty Kick Simulator</h3>
+                <div class="pk-header">
+                    <div class="score-container">Score: <span id="pk-score">0</span></div>
+                    <div class="score-container">High Score: <span id="pk-high-score">0</span></div>
+                </div>
+                <div id="pk-goal">
+                    </div>
+                <h4 id="pk-status" class="game-status">Click on a square in the goal to shoot!</h4>
+            </div>
+            
+        </main>
+    </div>
+    <script src="js/games.js"></script> </body>
+</html>

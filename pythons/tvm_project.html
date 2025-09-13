@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Machines Manufacturing Capital Budgeting Model</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="../images/headshot.jpg" alt="Noah Vachon Headshot" id="header-headshot">
+            <h1>Noah Vachon's Practice Website for CSCI 310</h1>
+            <img src="../images/logo.png" alt="NV Analytics Logo" id="header-logo">
+        </header>
+
+        <nav class="menu">
+             <ul>
+                <li><a href="../index.html#about">About Me</a></li>
+                <li><a href="../index.html#projects">Projects</a></li>
+                <li><a href="../index.html#hobbies">Hobbies</a></li>
+            </ul>
+        </nav>
+
+        <main class="content-area">
+            <div class="project-detail">
+                <h3>Machines Manufacturing Capital Budgeting Model</h3>
+                <p>This project evaluates the manufacturing capital budgeting for a machine investment model using various financial metrics such as NPV.</p>
+
+                <div class="section-links">
+                    <a href="#setup">Setup</a> | 
+                    <a href="#inputs">Inputs</a> | 
+                    <a href="#investment-scrap">Investment/Scrap</a> | 
+                    <a href="#cash-flow">Cash Flow</a> |
+                    <a href="#main-model">Main Model</a> |
+                    <a href="#outputs">Outputs</a>
+                </div>
+
+                <div id="setup">
+                    <h4>Setup</h4>
+                    <p>Setup for the later calculations, importing necessary packages and defining initial configurations.</p>
+                    <pre><code class="language-python">
+from dataclasses import dataclass
+import numpy as np
+import numpy_financial as npf
+                    </code></pre>
+                </div>
+
+                <div id="inputs">
+                    <h4>Inputs</h4>
+                    <p>Defining the inputs for the model using a data class to store the parameters.</p>
+                    <pre><code class="language-python">
+@dataclass
+class ModelInputs:
+    n_phones: float = 100000
+    price_scrap: float = 50000
+    price_phone: float = 500
+    cost_machine_adv: float = 1000000
+    cogs_phone: float = 250
+    n_life: int = 10
+    n_machines: int = 5
+    d_1: float = 100000
+    g_d: float = 0.2
+    max_year: float = 20
+    interest: float = 0.05
+    cash_flows = [0]
+    machines_purchased = 0
+    elasticity: float = 100
+    demand_constant: float = 300000
+
+model_data = ModelInputs()
+                    </code></pre>
+                </div>
+
+                <div id="investment-scrap">
+                    <h4>Investment or Scrap</h4>
+                    <p>Functions to determine machine purchases, advertising decisions, and machine scrap years.</p>
+                    <pre><code class="language-python">
+def investment(data, year):
+    if year <= data.n_machines:
+        data.machines_purchased += 1
+    else:
+        data.d_1 = data.d_1 * (data.g_d + 1)
+                    </code></pre>
+                    <pre><code class="language-python">
+def machine_lifecycle(data, year):
+    if year in range(data.n_life + 1, data.n_life + data.n_machines + 1):
+        data.machines_purchased -= 1
+        return True
+    else:
+        return False
+                    </code></pre>
+                </div>
+
+                <div id="cash-flow">
+                    <h4>Cash Flow</h4>
+                    <p>Calculates the cash flows using revenue, costs, and scrap value.</p>
+                    <pre><code class="language-python">
+def calculation(data, phones_sold_values, scrap_values):
+    revenue = phones_sold_values * data.price_phone
+    cost_of_production = phones_sold_values * data.cogs_phone
+    scrap = data.price_scrap if scrap_values else 0
+    cash_flow = revenue - cost_of_production - data.cost_machine_adv + scrap
+    data.cash_flows.append(cash_flow)
+                    </code></pre>
+                </div>
+
+                <div id="main-model">
+                    <h4>Main Model</h4>
+                    <p>Iterates over the years and calculates the machine investments, scraps, supply, demand, and cash flows.</p>
+                    <pre><code class="language-python">
+for year in range(1, model_data.max_year + 1):
+    investment_decision = investment(model_data, year)
+    scrap_value = machine_lifecycle(model_data, year)
+    supply = model_data.machines_purchased * model_data.n_phones
+    demand = model_data.d_1
+    phones_sold_values = demand if supply > demand else supply
+    calculation(model_data, phones_sold_values, scrap_value)
+                    </code></pre>
+                </div>
+
+                <div id="outputs">
+                    <h4>Outputs</h4>
+                    <p>Displays the calculated cash flows and NPV.</p>
+                    <pre><code class="language-python">
+cash_flows = model_data.cash_flows
+npv = npf.npv(model_data.interest, model_data.cash_flows)
+year = 0
+for x in cash_flows[1:]:
+    year += 1
+    print(f'Year {year}: ${x:,.0f}')
+print(f'NPV: ${npv:,.0f}')
+                    </code></pre>
+
+                    <h4>Python Code Output</h4>
+                    <pre><code class="language-python">
+Year 1: $24,000,000
+Year 2: $24,000,000
+Year 3: $24,000,000
+Year 4: $24,000,000
+Year 5: $24,000,000
+Year 6: $29,000,000
+Year 7: $35,000,000
+Year 8: $42,200,000
+Year 9: $50,840,000
+Year 10: $61,208,000
+Year 11: $73,699,600
+Year 12: $74,050,000
+Year 13: $49,050,000
+Year 14: $24,050,000
+Year 15: $-950,000
+Year 16: $-1,000,000
+Year 17: $-1,000,000
+Year 18: $-1,000,000
+Year 19: $-1,000,000
+Year 20: $-1,000,000
+NPV: $369,276,542
+                    </code></pre>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+</body>
+</html>

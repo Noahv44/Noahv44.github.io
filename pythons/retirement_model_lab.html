@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retirement Model Lab</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="../images/headshot.jpg" alt="Noah Vachon Headshot" id="header-headshot">
+            <h1>Noah Vachon's Practice Website for CSCI 310</h1>
+            <img src="../images/logo.png" alt="NV Analytics Logo" id="header-logo">
+        </header>
+
+        <nav class="menu">
+             <ul>
+                <li><a href="../index.html#about">About Me</a></li>
+                <li><a href="../index.html#projects">Projects</a></li>
+                <li><a href="../index.html#hobbies">Hobbies</a></li>
+            </ul>
+        </nav>
+
+        <main class="content-area">
+            <div class="project-detail">
+                <h3>Retirement Model Lab</h3>
+                <p>This project helps calculate the years until retirement based on savings rate and investment return.</p>
+
+                <h4>Python Code</h4>
+                <pre><code class="language-python">
+# Imports / Variables
+
+## Imports
+
+import numpy
+import numpy_financial as np
+
+## Variables
+
+salary = 60000
+savings_rate = [0.10, 0.25, 0.40]
+investment_rate = [0.04, 0.05, 0.06]
+desired_cash = 1500000
+saved_cash = 0
+
+## Calculations
+
+for s_rate in savings_rate:
+    annual_cash = salary * s_rate
+    for i_rate in investment_rate:
+        years_to_retirement = np.nper(i_rate,-annual_cash,saved_cash,desired_cash)
+        print(f'Martha has {years_to_retirement:.1f} years to retirement if she earns a {i_rate:.0%} return and saves {s_rate:.0%}.')
+                </code></pre>
+
+                <h4>Python Code Output</h4>
+                <pre><code class="language-python">
+# Output of the calculation
+Martha has 61.1 years to retirement if she earns a 4% return and saves 10%.
+Martha has 53.3 years to retirement if she earns a 5% return and saves 10%.
+Martha has 47.6 years to retirement if she earns a 6% return and saves 10%.
+Martha has 41.0 years to retirement if she earns a 4% return and saves 25%.
+Martha has 36.7 years to retirement if she earns a 5% return and saves 25%.
+Martha has 33.4 years to retirement if she earns a 6% return and saves 25%.
+Martha has 31.9 years to retirement if she earns a 4% return and saves 40%.
+Martha has 29.0 years to retirement if she earns a 5% return and saves 40%.
+Martha has 26.7 years to retirement if she earns a 6% return and saves 40%.
+                </code></pre>
+            </div>
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+</body>
+</html>

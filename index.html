@@ -1,0 +1,170 @@
+<!-- Presentation notes
+ GO over the site
+ List the type of java script used
+ show requirement fulfillment
+ show your 5 effects
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noah Vachon's Portfolio</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="images/headshot.jpg" alt="Noah Vachon Headshot" id="header-headshot">
+            <h1>Noah Vachon's Practice Website for CSCI 310</h1>
+            <img src="images/logo.png" alt="NV Analytics Logo" id="header-logo">
+        </header>
+
+        <nav class="menu">
+            <ul>
+                <li><a href="#about">About Me</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#hobbies">Hobbies</a></li>
+            </ul>
+        </nav>
+
+        <main class="content-area">
+            <section id="about" class="tab-content">
+                <div class="desktop-about-content">
+                    <h2>About Me</h2>
+                    <div class="resume-section">
+                        <h3>Education & Training</h3>
+                        <h4>University of Indianapolis - Indianapolis, Indiana (2022 - present)</h4>
+                        <p>
+                            Concentration: Finance B.S. / M.B.A and Analytics M.B.A (GPA 4.0) <br>
+                            BS - Dec 2025 | MBA - May 2026<br>
+                            Minor: Computer Science - Structures and Algorithms, Big Data, and Ai
+                        </p>
+                    </div>
+
+                    <div class="resume-section">
+                        <h3>Experience</h3>
+                        <div class="job">
+                            <h4 class="accordion-toggle">Valeo Financial Advisors - Investment Analyst (Summer 2025) <span class="accordion-icon">+</span></h4>
+                            <ul class="accordion-content">
+                                <li>Redesigned and automated weekly & monthly investment dashboards saving 20+ hours monthly </li>
+                                <li>Created a fully dynamic private equity knowledge database currently in use by the team </li>
+                                <li>Developed a proprietary fixed income fund analysis system isolating funds based on client needs</li>
+                            </ul>
+                        </div>
+                        <div class="job">
+                            <h4 class="accordion-toggle">Elevance Health - Finance Intern (Summer 2024) <span class="accordion-icon">+</span></h4>
+                            <ul class="accordion-content">
+                                <li>Completed and automated 6+ processes allowing for more accurate and efficient reporting </li>
+                                <li>Automated the balance sheet analysis process lowering time needed by 4+ hours monthly </li>
+                                <li>Utilized SQL scripts, VBA, and Excel to analyze data, trends, and financial performance </li>
+                            </ul>
+                        </div>
+                        <div class="job">
+                             <h4 class="accordion-toggle">Fastenal Fortune 500 Company - Associate Intern (Summer 2023) <span class="accordion-icon">+</span></h4>
+                             <ul class="accordion-content">
+                                <li>Conducted data analysis using excel and created reports to identify sales trends </li>
+                                <li>Relocated and sold over $5,000 of deadstock inventory removing tied up capital </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                     <div class="resume-section">
+                        <h3>Critical Skills</h3>
+                         <ul>
+                            <li><strong>Computer Proficiency:</strong> Well versed in Office and Google applications, Tableau, Python</li>
+                            <li><strong>Certifications:</strong> Bloomberg Markets Certified and Microsoft Excel 2019 Certified</li>
+                            <li><strong>Problem Solving:</strong> Tend to look at all possible solutions to a problem and pursue the best option</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mobile-about-content">
+                    <img src="images/headshot.jpg" alt="Noah Vachon - Professional Headshot" class="mobile-profile-img">
+                    <h2>NV Website</h2>
+                    <p>Welcome to Noah Vachon's portfolio, optimized for mobile viewing!</p>
+                </div>
+            </section>
+            
+            <section id="projects" class="tab-content">
+                <h2>JS Dynamic Effects</h2>
+                <div class="effects-container">
+                    <div class="effect-wrapper">
+                        <p><strong>Effect 1:</strong> Toggle Light/Dark Mode</p>
+                        <div class="dark-mode-toggle">
+                            <input type="checkbox" id="theme-switch" class="theme-switch-checkbox">
+                            <label for="theme-switch" class="theme-switch-label">
+                                <span class="theme-switch-inner">
+                                    <span class="sun-icon">☀️</span>
+                                    <span class="moon-icon">🌙</span>
+                                </span>
+                                <span class="theme-switch-switch"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="effect-wrapper">
+                        <p><strong>Effect 2:</strong> JavaScript Games</p>
+                        <a href="games.html" class="button-link">Play Games</a>
+                    </div>
+                    <div class="effect-wrapper" id="quote-generator">
+                        <p><strong>Effect 3:</strong> Random Quote Generator</p>
+                        <div class="quote-display">
+                            <p id="quote-text">"The only way to do great work is to love what you do."</p>
+                            <cite id="quote-author">- Steve Jobs</cite>
+                        </div>
+                        <button id="new-quote-btn" class="button-link">New Quote</button>
+                    </div>
+                    </div>
+
+                <hr class="section-divider">
+
+                <h2>My Work</h2>
+                <p>A collection of my recent work in Python and Excel for financial analysis and modeling. Click a title to learn more.</p>
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <h4><a href="pythons/dynamic_salary_model.html">Dynamic Salary Model</a></h4>
+                        <p>An Excel and Python model that demonstrates a salary over time retirement plan, taking into account variables like salary growth, inflation, and retirement age.</p>
+                    </div>
+                    <div class="project-card">
+                        <h4><a href="pythons/retirement_model_lab.html">Retirement Model Lab</a></h4>
+                        <p>A Python script and Excel model to calculate the years until retirement based on savings rate and investment return.</p>
+                    </div>
+                    <div class="project-card">
+                        <h4><a href="pythons/tvm_project.html">Time Value of Money (TVM) Project</a></h4>
+                        <p>An Excel model that illustrates key financial concepts used in manufacturing investment analysis, calculating NPV and IRR.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="hobbies" class="tab-content">
+                <h2>Hobbies</h2>
+                <div class="hobby-section">
+                    <h3>Running</h3>
+                    <p>As a collegiate athlete, running is a significant part of my life. Here are some of my personal records:</p>
+                    <div class="pr-grid">
+                        <div class="pr-card"><strong>800m</strong><span>2:00.10</span></div>
+                        <div class="pr-card"><strong>Mile</strong><span>4:42.73</span></div>
+                        <div class="pr-card"><strong>8K (XC)</strong><span>27:20.9</span></div>
+                        <div class="pr-card"><strong>10K (XC)</strong><span>36:10.6</span></div>
+                    </div>
+                </div>
+
+                <div class="hobby-section">
+                    <h3>Video Games</h3>
+                    <p>I enjoy both playing and designing games. I reached the Grand Champion rank in Rocket League and am currently halfway through a challenging SoulSilver Nuzlocke. I also like to design my own games to run statistical simulations.</p>
+                </div>
+
+                <div class="hobby-section">
+                    <h3>Statistical Analysis</h3>
+                    <p>My interest in analytics extends to my hobbies, particularly in the statistical analysis of casino games. I enjoy developing and testing play theories for new games like bubble craps.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+    <a href="#" id="back-to-top-btn" title="Back to Top">⬆️</a>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
